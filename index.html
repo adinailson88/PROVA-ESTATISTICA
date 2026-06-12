@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Estatistica Aplicada a Biossistemas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#inicio">Estatistica Aplicada a Biossistemas</a>
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">Menu</button>
+    <nav class="nav" aria-label="Navegacao principal">
+      <a href="#plano">Plano</a>
+      <a href="#modulo-1">Valor de p</a>
+      <a href="#modulo-2">Testes</a>
+      <a href="#modulo-3">Parametricos</a>
+      <a href="#modulo-4">Dados razoaveis</a>
+      <a href="#modulo-5">Hipoteses</a>
+      <a href="#exercicios">Exercicios</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero section">
+      <div>
+        <p class="eyebrow">Roteiro de estudo com exemplos em R</p>
+        <h1>Estatistica para interpretar experimentos, dados ambientais e sistemas produtivos.</h1>
+        <p class="lead">O site organiza conceitos essenciais para pos-graduacao em Biossistemas: formulacao de hipoteses, escolha de testes, leitura do valor de p, qualidade dos dados e exercicios alimentados por CSV ou por uma planilha Google publicada como CSV.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#exercicios">Ir para questoes</a>
+          <a class="button secondary" href="#como-alimentar">Padrao da planilha</a>
+        </div>
+      </div>
+      <aside class="hero-panel" aria-label="Resumo do painel">
+        <strong id="totalQuestoesHero">0</strong>
+        <span>questoes ativas carregadas</span>
+      </aside>
+    </section>
+
+    <section id="plano" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Plano de estudo</p>
+        <h2>Sequencia recomendada</h2>
+      </div>
+      <div class="plan-grid">
+        <article><span>1</span><h3>Entender o dado</h3><p>Verifique unidade experimental, tipo de variavel, escala, independencia, ausencias, outliers e plausibilidade biologica.</p></article>
+        <article><span>2</span><h3>Declarar hipoteses</h3><p>Escreva H0 e H1 antes de olhar o resultado. Separe testes bilaterais e unilaterais.</p></article>
+        <article><span>3</span><h3>Escolher o teste</h3><p>Relacione pergunta, delineamento, numero de grupos, pareamento, distribuicao e tamanho amostral.</p></article>
+        <article><span>4</span><h3>Interpretar evidencias</h3><p>Leia valor de p junto com intervalo de confianca, tamanho do efeito, grafico e relevancia pratica.</p></article>
+        <article><span>5</span><h3>Responder tecnicamente</h3><p>Evite frases absolutas. Use conclusoes compatíveis com a pergunta, o desenho e as limitacoes dos dados.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="module-cards" id="moduleCards" aria-label="Contador por modulo"></div>
+    </section>
+
+    <section id="modulo-1" class="section module-section">
+      <div class="section-heading">
+        <p class="eyebrow">Modulo 1</p>
+        <h2>Valor de p</h2>
+      </div>
+      <div class="content-grid">
+        <article>
+          <h3>Definicao correta</h3>
+          <p>O valor de p e a probabilidade, assumindo H0 como referencia do modelo estatistico, de observar um resultado tao extremo quanto o obtido ou mais extremo. Ele nao e a probabilidade de H0 ser verdadeira.</p>
+          <p>Quando p e menor que alfa, rejeita-se H0 no criterio previamente definido. Quando p e maior ou igual a alfa, a conclusao tecnica e nao rejeitar H0, nao "provar" ou "aceitar" H0.</p>
+          <div class="callout danger"><strong>Erro comum:</strong> p pequeno nao garante importancia biologica. Uma diferenca minuscula em biomassa pode ser estatisticamente significativa e irrelevante para o manejo.</div>
+          <div class="callout"><strong>Como escrever na prova:</strong> Com alfa = 0,05, houve evidencia estatistica de diferenca entre os tratamentos, mas a relevancia agronomica deve ser avaliada pelo tamanho do efeito e pelo intervalo de confianca.</div>
+        </article>
+        <article>
+          <h3>Exemplo aplicado</h3>
+          <p>Um experimento compara crescimento de mudas sob irrigacao convencional e deficit controlado. O teste t avalia se as medias de crescimento diferem, mas a decisao de manejo tambem exige avaliar a magnitude da diferenca e o custo de agua economizada.</p>
+          <pre><button class="copy-code" type="button">Copiar</button><code>convencional <- c(18.2, 19.1, 17.8, 20.0, 18.7)
+deficit <- c(16.9, 17.4, 16.8, 18.1, 17.0)
+
+t.test(convencional, deficit, var.equal = TRUE)</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="modulo-2" class="section module-section">
+      <div class="section-heading">
+        <p class="eyebrow">Modulo 2</p>
+        <h2>Testes estatisticos: pre-teste, teste e pos-teste</h2>
+      </div>
+      <div class="three-columns">
+        <article>
+          <h3>A) Pre-teste</h3>
+          <ul>
+            <li>Inspecione valores, unidades e graficos.</li>
+            <li>Classifique a variavel: numerica, ordinal, nominal ou contagem.</li>
+            <li>Verifique independencia, pareamento e unidade experimental.</li>
+            <li>Analise ausentes, outliers, normalidade e homogeneidade.</li>
+            <li>Confirme o delineamento antes do teste.</li>
+          </ul>
+        </article>
+        <article>
+          <h3>B) Teste</h3>
+          <table>
+            <thead><tr><th>Pergunta</th><th>Opcoes usuais</th></tr></thead>
+            <tbody>
+              <tr><td>Duas medias independentes</td><td>t independente ou Wilcoxon</td></tr>
+              <tr><td>Antes/depois no mesmo item</td><td>t pareado ou Wilcoxon pareado</td></tr>
+              <tr><td>Mais de duas medias</td><td>ANOVA ou Kruskal-Wallis</td></tr>
+              <tr><td>Associacao categorica</td><td>Qui-quadrado ou Fisher</td></tr>
+              <tr><td>Associacao numerica</td><td>Pearson ou Spearman</td></tr>
+            </tbody>
+          </table>
+        </article>
+        <article>
+          <h3>C) Pos-teste</h3>
+          <ul>
+            <li>Interprete p com alfa definido previamente.</li>
+            <li>Informe intervalo de confianca e tamanho do efeito.</li>
+            <li>Use Tukey apos ANOVA quando a pergunta for comparar pares.</li>
+            <li>Inclua grafico coerente com o dado.</li>
+            <li>Conclua em linguagem tecnica e aplicada.</li>
+          </ul>
+        </article>
+      </div>
+      <div class="code-grid">
+        <pre><button class="copy-code" type="button">Copiar</button><code>dados <- data.frame(
+  tratamento = rep(c("Controle", "Biofertilizante", "Composto"), each = 6),
+  produtividade = c(22, 24, 23, 25, 21, 24, 28, 30, 29, 27, 31, 28, 26, 27, 25, 28, 29, 27)
+)
+
+modelo <- aov(produtividade ~ tratamento, data = dados)
+summary(modelo)
+TukeyHSD(modelo)</code></pre>
+        <pre><button class="copy-code" type="button">Copiar</button><code>qualidade <- matrix(c(18, 4, 7, 15), nrow = 2, byrow = TRUE)
+colnames(qualidade) <- c("Adequada", "Inadequada")
+rownames(qualidade) <- c("Protegida", "Exposta")
+
+chisq.test(qualidade)
+fisher.test(qualidade)</code></pre>
+      </div>
+    </section>
+
+    <section id="modulo-3" class="section module-section">
+      <div class="section-heading">
+        <p class="eyebrow">Modulo 3</p>
+        <h2>Dados parametricos e nao parametricos</h2>
+      </div>
+      <div class="content-grid">
+        <article>
+          <p>Testes parametricos modelam parametros como media e variancia. Eles costumam ser adequados para variaveis numericas continuas, com desenho bem definido, residuos razoavelmente compativeis com normalidade, variancias comparaveis e ausencia de violacoes graves.</p>
+          <p>Testes nao parametricos sao uteis para dados ordinais, rankings, amostras pequenas com assimetria forte, outliers influentes ou situacoes em que a pergunta e melhor descrita por posicoes relativas.</p>
+          <div class="callout danger"><strong>Erro comum:</strong> nao escolha o teste apenas pelo p do Shapiro-Wilk. Considere grafico, tamanho amostral, delineamento, robustez do teste e pergunta biologica.</div>
+        </article>
+        <article>
+          <pre><button class="copy-code" type="button">Copiar</button><code>crescimento <- c(12.1, 13.4, 13.0, 12.8, 14.2, 13.7)
+summary(crescimento)
+mean(crescimento)
+median(crescimento)
+sd(crescimento)
+
+boxplot(crescimento, main = "Crescimento vegetal")
+shapiro.test(crescimento)</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="modulo-4" class="section module-section">
+      <div class="section-heading">
+        <p class="eyebrow">Modulo 4</p>
+        <h2>Principios dos dados razoaveis</h2>
+      </div>
+      <div class="checklist-grid">
+        <article><h3>Plausibilidade</h3><p>Valores devem ser coerentes com o fenomeno: umidade do solo, temperatura, vazao, produtividade ou custo.</p></article>
+        <article><h3>Unidade</h3><p>Compare kg, g, mm, m3 e R$ apenas depois de padronizar unidade e periodo.</p></article>
+        <article><h3>Completude</h3><p>Ausencias precisam ser descritas; imputacao nao deve esconder falhas de coleta.</p></article>
+        <article><h3>Independencia</h3><p>Medidas repetidas no mesmo vaso, parcela ou sala nao devem ser tratadas como independentes.</p></article>
+        <article><h3>Representatividade</h3><p>A amostra precisa representar o sistema de interesse, nao apenas a parte mais facil de medir.</p></article>
+        <article><h3>Rastreabilidade</h3><p>Mantenha fonte, data, instrumento, responsavel, criterio de inclusao e revisao.</p></article>
+      </div>
+    </section>
+
+    <section id="modulo-5" class="section module-section">
+      <div class="section-heading">
+        <p class="eyebrow">Modulo 5</p>
+        <h2>Hipoteses nulas e alternativas</h2>
+      </div>
+      <div class="content-grid">
+        <article>
+          <p>H0 representa ausencia de efeito, diferenca ou associacao no modelo testado. H1 representa existencia de efeito, diferenca ou associacao. A formulacao deve nascer da pergunta de pesquisa, nao do resultado observado.</p>
+          <p>Em teste bilateral, H1 indica diferenca em qualquer direcao. Em teste unilateral, H1 indica uma direcao especifica, que precisa ser justificada antes da analise.</p>
+          <div class="callout"><strong>Exemplo simbolico:</strong> H0: mu controle = mu biofertilizante. H1: mu controle diferente de mu biofertilizante.</div>
+        </article>
+        <article>
+          <h3>Exemplos textuais</h3>
+          <ul>
+            <li>H0: o biofertilizante nao altera a biomassa media das plantas.</li>
+            <li>H1: o biofertilizante altera a biomassa media das plantas.</li>
+            <li>H0: nao ha associacao entre tipo de protecao da fonte e qualidade microbiologica da agua.</li>
+            <li>H1: ha associacao entre tipo de protecao da fonte e qualidade microbiologica da agua.</li>
+          </ul>
+          <pre><button class="copy-code" type="button">Copiar</button><code>antes <- c(42, 45, 43, 46, 44)
+depois <- c(39, 41, 40, 43, 42)
+
+t.test(antes, depois, paired = TRUE)
+wilcox.test(antes, depois, paired = TRUE)</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="codigos-r" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">R essencial</p>
+        <h2>Blocos de codigo para copiar</h2>
+      </div>
+      <div class="code-grid compact">
+        <pre><button class="copy-code" type="button">Copiar</button><code>var.test(grupo_a, grupo_b)</code></pre>
+        <pre><button class="copy-code" type="button">Copiar</button><code>wilcox.test(grupo_a, grupo_b)</code></pre>
+        <pre><button class="copy-code" type="button">Copiar</button><code>kruskal.test(valor ~ tratamento, data = dados)</code></pre>
+        <pre><button class="copy-code" type="button">Copiar</button><code>cor.test(solo$umidade, solo$produtividade, method = "pearson")</code></pre>
+        <pre><button class="copy-code" type="button">Copiar</button><code>cor.test(ranking$vigor, ranking$produtividade, method = "spearman")</code></pre>
+      </div>
+    </section>
+
+    <section id="exercicios" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Base CSV / Planilha</p>
+        <h2>Exercicios</h2>
+      </div>
+      <div class="toolbar">
+        <label>Modo
+          <select id="modoExibicao">
+            <option value="estudo">Estudo</option>
+            <option value="simulado">Simulado</option>
+            <option value="revisao">Revisao</option>
+          </select>
+        </label>
+        <label>Modulo <select id="filtroModulo"></select></label>
+        <label>Assunto <select id="filtroAssunto"></select></label>
+        <label>Nivel <select id="filtroNivel"></select></label>
+        <label>Tipo <select id="filtroTipo"></select></label>
+        <label class="search-label">Busca <input id="buscaTexto" type="search" placeholder="enunciado, tags, contexto"></label>
+      </div>
+      <div class="status-line">
+        <span id="contadorQuestoes">0 questoes</span>
+        <button id="limparFiltros" class="button secondary" type="button">Limpar filtros</button>
+      </div>
+      <div id="simuladoPanel" class="simulado-panel hidden">
+        <span id="simuladoProgresso">Questao 1 de 1</span>
+        <div>
+          <button id="anteriorSimulado" class="button secondary" type="button">Anterior</button>
+          <button id="proximaSimulado" class="button secondary" type="button">Proxima</button>
+        </div>
+      </div>
+      <div id="listaQuestoes" class="question-list"></div>
+    </section>
+
+    <section id="como-alimentar" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Manutencao da base</p>
+        <h2>Como alimentar a planilha</h2>
+      </div>
+      <div class="content-grid">
+        <article>
+          <p>Use uma linha por questao. Preencha `ativo` com `SIM` para publicar a questao no painel. O site reconhece questoes de multipla escolha quando pelo menos as alternativas A a E estiverem preenchidas; caso contrario, renderiza a questao como discursiva.</p>
+          <p>Para usar a planilha Google em vez do arquivo local, publique a aba como CSV e substitua `CSV_URL` em `app.js` pela URL publicada. Enquanto a planilha nao estiver publicada, o site usa `questoes_exemplo.csv`.</p>
+        </article>
+        <article>
+          <h3>Colunas obrigatorias</h3>
+          <p class="small">id, ativo, modulo, assunto, nivel, tipo_questao, enunciado, contexto_biossistemas, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao, codigo_r, saida_esperada_r, tags, fonte, link_fonte, observacao_direitos, data_inclusao, revisado, ordem</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Conteudo didatico autoral, com apoio conceitual verificado em Estatistica Facil e base de questoes preparada para planilha Google publicada como CSV.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
